@@ -1,0 +1,110 @@
+@article{milovanvcevic2023proving,
+  title     = {Proving and Disproving Equivalence of Functional Programming Assignments},
+  author    = {Milovan{\v{c}}evi{\'c}, Dragana and Kun{\v{c}}ak, Viktor},
+  journal   = {Proceedings of the ACM on Programming Languages},
+  volume    = {7},
+  number    = {PLDI},
+  pages     = {928--951},
+  year      = {2023},
+  publisher = {ACM New York, NY, USA}
+}
+
+@inproceedings{guilloud2023formula,
+  title        = {Formula normalizations in verification},
+  author       = {Guilloud, Simon and Bucev, Mario and Milovan{\v{c}}evi{\'c}, Dragana and Kun{\v{c}}ak, Viktor},
+  booktitle    = {International Conference on Computer Aided Verification},
+  pages        = {398--422},
+  year         = {2023},
+  organization = {Springer}
+}
+
+@article{guilloud2024orthologic,
+  author     = {Guilloud, Simon and Kun\v{c}ak, Viktor},
+  title      = {Orthologic with Axioms},
+  year       = {2024},
+  issue_date = {January 2024},
+  publisher  = {Association for Computing Machinery},
+  address    = {New York, NY, USA},
+  volume     = {8},
+  number     = {POPL},
+  url        = {https://doi.org/10.1145/3632881},
+  doi        = {10.1145/3632881},
+  abstract   = {We study the proof theory and algorithms for orthologic, a logical system based on ortholattices, which have shown practical relevance in simplification and normalization of verification conditions. Ortholattices weaken Boolean algebras while having polynomial-time equivalence checking that is sound with respect to Boolean algebra semantics. We generalize ortholattice reasoning and obtain an algorithm for proving a larger class of classically valid formulas.  
+                
+                As the key result, we analyze a proof system for orthologic augmented with axioms. An important feature of the system is that it limits the number of formulas in a sequent to at most two, which makes the extension with axioms non-trivial. We show a generalized form of cut elimination for this system, which implies a sub-formula property. From there we derive a cubic-time algorithm for provability from axioms, or equivalently, for validity in finitely presented ortholattices. We further show that propositional resolution of width 5 proves all formulas provable in orthologic with axioms. We show that orthologic system subsumes resolution of width 2 and arbitrarily wide unit resolution and is complete for reasoning about generalizations of propositional Horn clauses.  
+                
+                Moving beyond ground axioms, we introduce effectively propositional orthologic (by analogy with EPR for classical logic), presenting its semantics as well as a sound and complete proof system. Our proof system implies the decidability of effectively propositional orthologic, as well as its fixed-parameter tractability for a bounded maximal number of variables in each axiom. As a special case, we obtain a generalization of Datalog with negation and disjunction.},
+  journal    = {Proc. ACM Program. Lang.},
+  month      = {jan},
+  articleno  = {39},
+  numpages   = {29},
+  keywords   = {Logic and decidability, Verification, Orthologic, Decision procedures}
+}
+
+@inproceedings{guilloud2023lisa,
+  author    = {Guilloud, Simon and Gambhir, Sankalp and Kun\v{c}ak, Viktor},
+  title     = {{LISA - A Modern Proof System}},
+  booktitle = {14th International Conference on Interactive Theorem Proving (ITP 2023)},
+  pages     = {17:1--17:19},
+  series    = {Leibniz International Proceedings in Informatics (LIPIcs)},
+  isbn      = {978-3-95977-284-6},
+  issn      = {1868-8969},
+  year      = {2023},
+  volume    = {268},
+  editor    = {Naumowicz, Adam and Thiemann, Ren\'{e}},
+  publisher = {Schloss Dagstuhl -- Leibniz-Zentrum f{\"u}r Informatik},
+  address   = {Dagstuhl, Germany},
+  url       = {https://drops.dagstuhl.de/entities/document/10.4230/LIPIcs.ITP.2023.17},
+  urn       = {urn:nbn:de:0030-drops-183922},
+  doi       = {10.4230/LIPIcs.ITP.2023.17},
+  annote    = {Keywords: Proof assistant, First Order Logic, Set Theory}
+}
+
+@inproceedings{dsilva2010interpolant,
+  author    = {D'Silva, Vijay
+               and Kroening, Daniel
+               and Purandare, Mitra
+               and Weissenbacher, Georg},
+  editor    = {Barthe, Gilles
+               and Hermenegildo, Manuel},
+  title     = {Interpolant Strength},
+  booktitle = {Verification, Model Checking, and Abstract Interpretation},
+  year      = {2010},
+  publisher = {Springer Berlin Heidelberg},
+  address   = {Berlin, Heidelberg},
+  pages     = {129--145},
+  abstract  = {Interpolant-based model checking is an approximate method for computing invariants of transition systems. The performance of the model checker is contingent on the approximation computed, which in turn depends on the logical strength of the interpolants. A good approximation is coarse enough to enable rapid convergence but strong enough to be contained within the weakest inductive invariant. We present a system for constructing propositional interpolants of different strength from a resolution refutation. This system subsumes existing methods and allows interpolation systems to be ordered by the logical strength of the obtained interpolants. Interpolants of different strength can also be obtained by transforming a resolution proof. We analyse an existing proof transformation, generalise it, and characterise the interpolants obtained.},
+  isbn      = {978-3-642-11319-2}
+}
+
+@article{statman1979intuitionistic,
+  title    = {Intuitionistic propositional logic is polynomial-space complete},
+  journal  = {Theoretical Computer Science},
+  volume   = {9},
+  number   = {1},
+  pages    = {67-72},
+  year     = {1979},
+  issn     = {0304-3975},
+  doi      = {https://doi.org/10.1016/0304-3975(79)90006-9},
+  url      = {https://www.sciencedirect.com/science/article/pii/0304397579900069},
+  author   = {Richard Statman},
+  abstract = {It is the purpose of this note to show that the question of whether a given propositional formula is intuitionistically valid (in Brouwer's sense, in Kripke's sense, or just provable by Heyting's rules, see Kreisel [7]) is p-space complete (see Stockmeyer [14]). Our result has the following consequences:1.(a) There is a simple (i.e. polynomial time) translation of intuitionistic propositional logic into classical propositional logic if and only if NP = p-space.2.(b) The problem of determining if a type of the typed λ-calculus is the type of a closed λ-term is p-space complete (this will be discussed below).3.(c) There is a polynomial bounded intuitionistic proof system if and only if NP = p-space (see Cook and Reckhow [2]).}
+}
+
+@inbook{mcmillan2018interpolation,
+  author    = {McMillan, Kenneth L.},
+  editor    = {Clarke, Edmund M.
+               and Henzinger, Thomas A.
+               and Veith, Helmut
+               and Bloem, Roderick},
+  title     = {Interpolation and Model Checking},
+  booktitle = {Handbook of Model Checking},
+  year      = {2018},
+  publisher = {Springer International Publishing},
+  address   = {Cham},
+  pages     = {421--446},
+  abstract  = {In this chapter we consider applications of logical proofs in model checking. Here we are not concerned with using model checking to verify steps in a larger proof but rather with ways in which logical proof methods can aid model checking, particularly in focusing model-checking methods on relevant facts. We introduce a framework for abstraction refinement based on a concept of deductive generalization. We then show how various abstraction refinement schemes can be understood in this framework in terms of local proofs and Craig interpolation. This unifying view exposes the trade-offs made in different systems between the quality and cost of refinements, and also leads to novel model-checking approaches.},
+  isbn      = {978-3-319-10575-8},
+  doi       = {10.1007/978-3-319-10575-8_14},
+  url       = {https://doi.org/10.1007/978-3-319-10575-8_14}
+}

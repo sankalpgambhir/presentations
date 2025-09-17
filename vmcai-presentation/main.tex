@@ -1,0 +1,922 @@
+% !TeX program = xelatex
+% !TeX encoding = UTF-8
+% !BIB program = biber
+% !TeX root = main.tex
+
+\documentclass[
+    aspectratio=169,
+    xcolor={dvipsnames},
+    % handout
+]{beamer}
+\usetheme[
+    % background = dark
+    % numbering = none,
+]{metropolis}
+
+% \setbeamercolor{background canvas}{bg=white}
+
+\input{macro}
+
+\title{Interpolation and Quantifiers in Orthologic}
+\author{Sankalp Gambhir\inst{1}\and Simon Guilloud \inst{1}\and Viktor Kun\v cak \inst{1}}
+\institute{\inst{1} Laboratory for Automated Reasoning and Analysis, EPFL}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+    % \titlepage
+
+    \vspace{1em}
+    {\huge Interpolation and Quantifiers in Ortholattices}
+
+    \vspace{0.2em}
+    {\textcolor[HTML]{DA291C}{\rule{\textwidth}{0.4pt}}}
+
+    \begin{center}
+        \footnotesize
+        \newcommand{\photowidth}{13ex}
+        \begin{tabular}{c c c}
+            \includegraphics[width = \photowidth]{authors/sankalp.png} &
+            \includegraphics[width = \photowidth]{authors/simon2.jpg}   &
+            \includegraphics[width = \photowidth]{authors/viktor.png}  \\
+            \emph{Sankalp}                                                    &
+            Simon                                                      &
+            Viktor                                                     \\
+            \emph{Gambhir}                                                    &
+            Guilloud                                                   &
+            Kun\v cak
+        \end{tabular}
+
+    \vspace{5ex}
+    \includegraphics[height=6ex]{fig/lara.pdf}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Propositional Reasoning}
+
+    % So this begins with the fact that we rely on a lot of propositional
+    % reasoning, but it's not easy. Validity, notably, is co-NP hard
+
+    \begin{itemize}[<+->]
+        \item We rely extensively on propositional reasoning
+        \item Validity checking --- coNP-hard
+        \item Can we do better? 
+        \item Abstractions?
+        \begin{itemize}
+            \item Need: soundness
+            \item Want: predictability, efficiency 
+        \end{itemize}
+    \end{itemize}
+
+    % this begs the question, can we reason about propositions in sound and
+    % predictable ways, that are not necessarily complete?
+
+    % if we want predictability, perhaps we want to look at algebraic characterizations
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Weakening Boolean Algebras}
+
+    % for one, you have intuitionistic logic, but the validity problem ends up
+    % being PSPACE complete
+
+    % another such alternative is orthologic, which, whose models are
+    % ortholattices, in the way boolean algebras correspond to propositional logic
+    % and heyting algebras to intuitionistic logic.
+
+    % notably, validity in orthologic can be checked in quadratic time
+
+    \begin{itemize}[<+->]
+        \item Intuitionistic Logic
+        \begin{itemize}
+            \item Validity --- PSPACE-Complete
+            \footnote<2->{\Citeauthor{statman1979intuitionistic}. \emph{\Citetitle{statman1979intuitionistic}}. In: TCS 1979}
+        \end{itemize}
+        \item Orthologic
+        \begin{itemize}
+            \item Validity --- \(O(n^2)\) time
+            \footnote<4->{\Citeauthor{guilloud2023formula}. \emph{\Citetitle{guilloud2023formula}}. In: CAV 2023}
+        \end{itemize}
+    \end{itemize}
+
+    \pause 
+
+    \begin{center}
+        \begin{tabular}{c c c}
+            Propositional Logic & \(\leftrightarrow\) & Boolean Algebras \\
+            Intuitionistic Logic & \(\leftrightarrow\) & Heyting Algebras \\
+            \textbf{Orthologic} & \(\leftrightarrow\) & \textbf{Ortholattices}
+        \end{tabular}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Ortholattices}
+
+    % so how do you define ortholattices?
+
+    % well, starting from the familiar laws for boolean algebras
+    % commutativity, associativity, double negation, de Morgan's laws, etc
+    % the respective dual laws are not listed due to space
+
+    % the <= can be seen as an implication, written this way because it is a
+    % lattice, a poset
+
+    % weaken distributivity to a degenerate version, called absorption
+
+
+    \begin{center}
+        \begin{tabular}{l l}
+            Commutativity & \(x \lor y = y \lor x\) \\
+            Associativity & \(x \lor (y \lor z) = (x \lor y) \lor z\) \\
+            Reflexivity & \(x \lor x = x\) \\
+            One & \(x \lor 1 = 1\) \\
+            Zero & \(x \lor 0 = x\) \\
+            Double Negation & \(\neg \neg x = x\) \\
+            Excluded Middle & \(x \lor \neg x = 1\) \\
+            De Morgan & \(x \lor (y \land z) = (x \lor y) \land (y \lor z)\) \\
+            Distributivity \onslide<2->{\textbf{X}} 
+                & \(x \lor (z \land y) = (x \lor z) \land (x \lor y)\) \\
+            \pause
+            \emph{Absorption} & \(x \lor (x \land y) = x\) 
+        \end{tabular}
+    \end{center}
+\end{frame}
+
+\begin{frame}
+    \frametitle{Ortholattices}
+
+    \begin{itemize}
+        \item incomplete but sound approximation for Boolean algebras
+        \item quadratic-time normalization procedure
+        \item found use recently in formula caching for verification
+        \footnote{\Citeauthor{guilloud2023formula}. \emph{\Citetitle{guilloud2023formula}}. In: CAV 2023}
+        \item as well as in interactive theorem proving \footnote{\Citeauthor{guilloud2023lisa}. \emph{\Citetitle{guilloud2023lisa}}. In: ITP 2023}
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Contributions}
+
+    % In this talk, I will begin by presenting the notion of an ortholattice
+    % and since we care primarily about proofs on ortholattices, the corresponding proof system, orthologic
+    % and why we care about interpolation in orthologic
+
+    % As an approach to interpolation, I will present our proposed semantics and
+    % proof system for quantified orthologic
+    % I will talk about the failure of quantifier elimination
+    % which makes the question of interpolation more interesting
+
+    % Finally, I will present our results on interpolation for orthologic
+    % the failure of a notion of interpolation based on refutation proofs
+    % and the existence of interpolation based on implications
+
+    \begin{itemize}
+        % \item[\(\checkmark\)] Ortholattices
+        % \item Orthologic --- Proof System
+        % \item Interpolation for Orthologic
+        \item Proof System for Quantified Orthologic (QOL)
+        \item Failure of Quantifier Elimination
+        \item Failure of Refutation-based Interpolation
+        \item Proof of Implicational Interpolation
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Moving to a Sequent Calculus}
+
+      % we are interested in interpolation and proofs, so instead of lattice
+      % inequalities, we would like to talk about sequents instead
+
+      % we define sequents as a pair of unordered sets of formulas, the left
+      % hand side, the assumptions, and the right hand side, the conclusions
+
+      Sequent
+      \begin{gather*}
+        \gamma_1, \gamma_2, \ldots \vdash \delta_1, \delta_2, \ldots
+      \end{gather*}
+
+      \pause
+      Proof rules
+      \begin{multicols}{2}
+        \centering
+
+        \AxiomC{\phantom{\Gamma}}
+        \RightLabel{\text { Hypothesis}}
+        \UnaryInfC{$\phi \vdash \phi$}
+        \DisplayProof
+
+        \columnbreak
+
+        \centering
+        \AxiomC{$\Gamma \vdash \phi$}
+        \AxiomC{$\Gamma \vdash \psi$}
+        \RightLabel{\text{ RightAnd}}
+        \BinaryInfC{$\Gamma \vdash \phi \land \psi$}
+        \DisplayProof
+      \end{multicols}
+
+      % with a choice of proof rules and other restrictions, if any
+      % you get a new proof system of choice
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{From Ortholattices to Orthologic}
+
+    % notably, if you restrict classical logic to have atmost one formula on the
+    % right hand side, you get intuitionistic logic
+
+    Intuitionistic logic --- at most one formula on the right-hand side of the sequent
+
+    \begin{gather*}
+        \gamma_1, \gamma_2, \ldots \vdash \psi
+    \end{gather*}
+
+    \pause
+
+    % analogously, orthologic, embodying the laws of ortholattices, is
+    % characterized by having atmost two formulas in the sequent at any step
+
+    Orthologic --- at most two formulas in the entire sequent
+
+    \begin{gather*}
+        \phi \vdash \psi \\
+        \phi, \psi \vdash \\
+        \vdash \phi, \psi
+    \end{gather*}
+
+    \pause
+
+    % as it's more convenient for orthologic, we write sequents as a set of
+    % (atmost two) formulas with left and right annotations
+
+    For convenience, written with left/right annotations, e.g. \(\phi^L, \psi^R\)
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Orthologic --- Proof Rules}
+    \centering
+
+    % the proof rules themselves remain the same as for classical propositional
+    % sequent calculus, only with the added restriction of having atmost two
+    % formulas at any step
+
+    \begin{tabular}{c c}
+         \\
+            \multicolumn{2}{c}{            
+                \AxiomC{}
+                \RightLabel{\text { Hyp}}
+                \UnaryInfC{$\phi^L, \phi^R$}
+                \DisplayProof
+            }\\[3ex]
+
+            \multicolumn{2}{c}{
+                \AxiomC{$\Gamma, \psi^R$}
+                \AxiomC{$\psi^L, \Delta$}
+                \RightLabel{\text{ Cut}}
+                \BinaryInfC{$\Gamma, \Delta$}
+                \DisplayProof
+            }\\[3ex]
+
+            \multicolumn{2}{c}{
+                \AxiomC{$\Gamma$}
+                \RightLabel{\text { Weaken}}
+                \UnaryInfC{$\Gamma, \Delta$}
+                \DisplayProof
+            }\\[3ex]
+
+            
+            \AxiomC{$\Gamma, \phi^L$}
+            \RightLabel{\text { LeftAnd}}
+            \UnaryInfC{$\Gamma, (\phi \land \psi)^L$}
+            \DisplayProof &
+            \AxiomC{$\Gamma, \phi^R$}
+            \AxiomC{$\Gamma, \psi^R$}
+            \RightLabel{\text{ RightAnd}}
+            \BinaryInfC{$\Gamma, (\phi \land \psi)^R$}
+            \DisplayProof
+            \\[3ex]
+
+            \AxiomC{$\Gamma, \phi^L$}
+            \AxiomC{$\Gamma, \psi^L$}
+            \RightLabel{\text{ LeftOr}}
+            \BinaryInfC{$\Gamma, (\phi \lor \psi)^L$}
+            \DisplayProof &
+            \AxiomC{$\Gamma, \phi^R$}
+            \RightLabel{\text{ RightOr}}
+            \UnaryInfC{$\Gamma, (\phi \lor \psi)^R$}
+            \DisplayProof
+            \\[3ex]
+
+            \AxiomC{$\Gamma, \phi^R$}
+            \RightLabel{\text { LeftNot}}
+            \UnaryInfC{$\Gamma, (\neg \phi)^L$}
+            \DisplayProof &
+            \AxiomC{$\Gamma, \phi^L$}
+            \RightLabel{\text{ RightNot}}
+            \UnaryInfC{$\Gamma, (\neg \phi)^R$}
+            \DisplayProof \\[3ex]
+        \end{tabular}
+
+    % pause and breathe
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Orthologic --- Proof Search}
+
+    % following the quadratic normalization procedure, proofs in orthologic are
+    % also atmost quadratic in the size of the formulas in the sequent
+
+    % and in fact, even in the presence of arbitrary axioms, proofs can be found
+    % in cubic time
+
+    \begin{itemize}
+        \item Proofs in orthologic are at most quadratic in size of the formula
+        \item Proofs can be found in cubic-time in the presence of axioms\(^1\)
+    \end{itemize}
+
+    % you can hear about this, alongside several other interesting results in my
+    % coauthors' talk at POPL later this week, titled Orthologic with Axioms 
+
+    \vspace{1em}
+    \begin{center}
+        \(^1\)\textbf{Orthologic with Axioms} \\
+        \emph{Simon Guilloud}, Viktor Kun\v cak\\
+        POPL 2024, 19 Jan Friday 16:50
+    \end{center}
+
+    % so while incomplete for propositional logic, we can produce small proofs
+    % for a large class of formulas
+
+\end{frame}
+
+% Draft notes
+% interpolation is useful
+%% verification
+%% focus model-checking methods on relevant facts
+%% starting from proofs, rather than using them simply as certificates of correctness, use them as a basis for generalization 
+
+\begin{frame}
+    \frametitle{Interpolation}
+
+    % once we have these proofs, we are interested in interpolation
+
+    % can we find interpolating formulas or "local proofs"
+
+    % interpolation is the question of whether, given say two formulas A and B,
+    % and a proof that A implies B, can we find a formula I such that A implies
+    % I, and I implies B, while I contains only the free variables common to A
+    % and B.
+
+    % in essence, finding the relevant facts in the proof which link the
+    % hypothesis and the conclusion
+
+    Given that
+    \begin{gather*}
+        A_{\bar{x}, \bar{y}} \implies B_{\bar{y}, \bar{z}}
+    \end{gather*}
+
+    \pause
+    find \(I_{\bar{y}}\) such that
+    \(A_{\bar{x}, \bar{y}} \implies I_{\bar{y}}\), and
+    \(I_{\bar{y}} \implies B_{\bar{y}, \bar{z}}\).
+
+    \pause
+    \begin{itemize}
+        \item Focus search to relevant facts % less explosion
+        \item Better counterexamples
+        \item Abstraction generalization
+        \footnote<3->{
+            \Citeauthor{mcmillan2018interpolation}. \Citetitle{mcmillan2018interpolation}. In: Handbook of Model Checking
+        }
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Interpolation in Boolean Algebras}
+
+    % note that if we allow quantifiers, we get some interpolants for free
+    % by simply quantifying away the varaibles that are not common to A and B
+
+    % Boolean algebras, in particular, admit quantifier elimination, which means
+    % that for these formulas containing quantifiers (which are not in the
+    % language of BA that we need), we can compute equivalent quantifier-free
+    % formulas, giving us the interpolants we wanted
+
+    \begin{gather*}
+        A_{\bar{x}, \bar{y}} \implies B_{\bar{y}, \bar{z}}
+    \end{gather*}
+
+    \pause
+    With quantifiers, we get some interpolants for free:
+
+    \begin{itemize}
+        \item \(I_1 : \exists \bar{x}. A_{\bar{x}, \bar{y}}\)
+        \item \(I_2 : \forall \bar{z}. B_{\bar{y}, \bar{z}}\)
+    \end{itemize}
+
+    % we can prove with a little effort that these are indeed interpolants
+
+    \pause
+    By quantifier elimination for Boolean algebras, the quantifier-free formulas
+    \(QE(I_1)\) and \(QE(I_2)\) can be computed. 
+
+    \pause
+    Better: we get least and most general interpolants. \footnote{\Citeauthor{dsilva2010interpolant}. \emph{\Citetitle{dsilva2010interpolant}}. In: VMCAI 2010}
+    % also allows you to do some symbolic state computation
+\end{frame}
+
+
+% why is adding quantifiers interesting
+%% allows encoding more properties
+%% we define semantics of quantified ortholattices
+
+\begin{frame}
+    \frametitle{Quantified Orthologic}
+
+    % it would be rgeat if we could do the same for orthologic, but we currently
+    % do not have quantifiers at all.
+
+    % so, we introduce semantics of quantified orthologic on complete ortholattices
+    % as an analogue to QBF for propositional logic or to system F for intuitionistic logic
+
+    We present the semantics of Quantified Orthologic (QOL) on complete ortholattices.
+
+    % we add two operators, the greatest lower bound, corresponding to universal quantification
+    % and the least upper bound, corresponding to existential quantification
+
+    \pause
+
+    \begin{itemize}
+        \item Greatest lower bound (universal quantification): \(\bigwedge x. \phi\)
+        \item Least upper bound (existential quantification): \(\bigvee x. \phi\)
+    \end{itemize}
+
+    % the semantics are given on complete ortholattices to ensure that the bounds really do exist
+
+    \pause
+
+    % correspondingly, we add the usual proof rules for quantification on either
+    % side of a sequent
+    
+    \begin{center}
+        \begin{tabular}{c c}
+             \\
+            \AxiomC{$\Gamma, \phi[x:=\gamma]^L$}
+            \RightLabel{\text { LeftForall}}
+            \UnaryInfC{$\Gamma, (\bigwedge x. \phi)^L$}
+            \DisplayProof &
+            \AxiomC{$\Gamma, \phi[x:=x']^R$}
+            \RightLabel{\text{ \shortstack{RightForall \\ {\scriptsize($x'$ not free in $\Gamma$)}} }}
+            \UnaryInfC{$\Gamma, (\bigwedge x. \phi)^R$}
+            \DisplayProof \\[3ex]
+    
+            \AxiomC{$\Gamma, \phi[x:=x']^L$}
+            \RightLabel{\text { \shortstack{LeftExists \\ {\scriptsize($x'$ not free in $\Gamma$)}}}}
+            \UnaryInfC{$\Gamma, (\bigvee x. \phi)^L$}
+            \DisplayProof &
+            \AxiomC{$\Gamma, \phi[x:=\gamma]^R$}
+            \RightLabel{\text{ RightExists}}
+            \UnaryInfC{$\Gamma, (\bigvee x. \phi)^R$}
+            \DisplayProof \\[3ex]
+     \\
+        \end{tabular}
+    \end{center}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Quantified Orthologic}
+
+    % we show that this new proof system is both sound and complete for
+    % ortholattices
+
+    \begin{theorem}[Soundness]
+        For every sequent \(S\), if \(\vdash S\) then \(\models S\).
+    \end{theorem}
+
+    \begin{theorem}[Completeness]
+        For every sequent \(S\), if \(\models S\) then \(\vdash S\).
+    \end{theorem}
+
+    % i.e. any inequality provable in QOL is true in all complete ortholattices
+    % with quantifiers, and vice versa
+
+    \pause
+
+    Inequalities correspond directly to sequents:
+    \begin{gather*}
+        \gamma \leq \delta \iff \vdash (\gamma^L, \delta^R)
+    \end{gather*}
+
+\end{frame}
+
+% draft notes
+% first result: OL does not admit quantifier elimination
+%% so quantifiers in OL really do give you more expressive power
+%% quantifier elimication in the boolean case give you interpolation
+%% does not mean no interpolation
+
+\begin{frame}
+    \frametitle{Quantifier Elimination}
+
+    % EMPTY SLIDE WHAT DO I ADD
+
+    % what is qel
+    Given a formula \(\phi\) with quantifiers, produce an equivalent
+    quantifier-free formula \(QE(\phi)\),
+
+    \begin{gather*}
+        \phi \iff QE(\phi)
+    \end{gather*}
+
+    % Brown explanation
+    % https://www.usna.edu/CS/qepcadweb/B/QE.html
+    % exists x phi can be phrased as when does there exist an x such that phi holds?
+
+    
+    % \begin{center}
+    %     \pause
+    %     \(\exists x. \phi\): when does there exist an \(x\) such that \(\phi\) holds?
+    
+    %     % the quantifier eliminated version is the answer to that question
+    %     \pause
+    %     There exists an \(x\) such that \(\phi\) holds when... \((\exists x. \phi)_{QE}\)
+    % \end{center}
+    
+    % \begin{center}
+    %     \pause
+    %     \(\exists x \in \mathbb{R}. a \not = 0 \land ax^2 + bx + c = 0\): \\
+    %     when does there exist a real root of the quadratic polynomial?
+    
+    %     \pause
+    %     There exists a real root of the quadratic polynomial when... \(a \not = 0 \land b^2 - 4ac \geq 0\)
+    % \end{center}
+
+    % \pause
+    % \begin{gather*}
+    %     \exists x. a \not = 0 \land ax^2 + bx + c = 0 \iff a \not = 0 \land b^2 - 4ac \geq 0
+    % \end{gather*}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Quantifier elimination in Orthologic}
+
+    % and we show, by counterexample, that quantified orthologic does not admit
+    % quantifier elimination. Since the formula phi has only y as a free
+    % variable, its quantifier elimination must also contain only y as a free
+    % variable.
+
+    % but we can show that any such formula cannot be equivalent to phi
+    % simultaneously in both these ortholattice models, M2 and M4. the lattice
+    % M2 is distributive, and thus a Boolean algebra, while M4 is not
+
+    \begin{theorem}
+        Quantified Orthologic does not admit quantifier elimination.
+    \end{theorem}
+
+    \pause
+
+    Counterexample: \(\phi = \bigvee x. (\neg x \land (y \lor x))\)
+
+    \pause
+    Quantifier elimination must contain only \(y\): \(0, 1, y, \neg y, \ldots\)
+
+    \pause
+    
+    \begin{center}
+        \fbox{\begin{tikzpicture}[
+            roundnode/.style={circle, very thick, minimum size=5mm},
+            ]
+            %Nodes
+            \node[roundnode]      (main)                              {};
+            \node[roundnode]      (l)         [above=0.5cm of main] {$1$};
+            \node[roundnode]      (o)         [below=0.5cm of main] {$0$};
+            \node[roundnode]        (na)       [right=0.2cm of main] {$\neg a$};
+            \node[roundnode]        (a)       [left=0.2cm of main] {$a$};
+    
+            \node[draw = none] (m2) [below of = o] {\(M_2\)};
+    
+            %Lines
+            \draw[-] (l) -- (a);
+            \draw[-] (l) -- (na);
+            \draw[-] (a) -- (o);
+            \draw[-] (na) -- (o);
+            \end{tikzpicture}}
+            \qquad
+                    \fbox{\begin{tikzpicture}[
+            roundnode/.style={circle, very thick, minimum size=5mm},
+            ]
+            %Nodes
+            \node[roundnode]      (main)                              {};
+            \node[roundnode]      (l)         [above=0.5cm of main] {$1$};
+            \node[roundnode]      (o)         [below=0.5cm of main] {$0$};
+            \node[roundnode]        (na)       [left=0.2cm of main] {$\neg a$};
+            \node[roundnode]        (a)       [left=0.5cm of na] {$a$};
+            \node[roundnode]        (b)       [right=0.2cm of main] {$b$};
+            \node[roundnode]        (nb)       [right=0.5cm of b] {$\neg b$};
+    
+            \node[draw = none] (m2) [below of = o] {\(M_4\)};
+    
+            %Lines
+            \draw[-] (l) -- (a);
+            \draw[-] (l) -- (na);
+            \draw[-] (l) -- (b);
+            \draw[-] (l) -- (nb);
+            \draw[-] (a) -- (o);
+            \draw[-] (na) -- (o);
+            \draw[-] (b) -- (o);
+            \draw[-] (nb) -- (o);
+            \end{tikzpicture}}
+    \end{center}
+
+    % so, 1, quantifiers in orthologic really do add more expressive power
+
+    % and 2, it seems we cannot get interpolation so easily, 
+
+\end{frame}
+
+% second result: interpolation 1 does not exist
+\begin{frame}
+    \frametitle{Refutation-based Interpolation}
+
+    % so we consider two different notions of interpolation, with the first
+    % based on refutation proofs.
+
+    Given two sequents \(\gamma\) and \(\delta\), and a proof of contradiction assuming
+    \(\gamma\) and \(\delta\), find an interpolant sequent \(I\), such that
+
+    \begin{itemize}[<+->]
+        \item \(I\) can be deduced from \(\gamma\) alone
+        \item \(I\) and \(\delta\) are inconsistent when assumed together
+        \item \(FV(I) \subset FV(\gamma) \cap FV(\delta)\)
+    \end{itemize}
+
+    % and we show that orthologic does not admit refutation-based interpolation
+    % also by counterexample. 
+
+    % there is an OL proof of contradiction assuming \gamma and \delta, which
+    % you can find in the paper 
+    
+    % Same as quantifier elimination, the interpolant for these two formulas
+    % must only contain y as a free variable, and we show that no such formula
+    % can be an interpolant for this example.
+
+    \pause
+    \begin{theorem}
+        Orthologic does not admit refutation-based interpolation.
+    \end{theorem}
+
+    \pause
+
+    Counterexample: 
+    \begin{gather*}
+        \gamma: (z \lor \neg y) \land (\neg z \lor \neg y)^R \\
+        \delta: (x \land \neg y) \lor (\neg x \land \neg y)^R
+    \end{gather*}
+    \pause
+    No sequent \(I\) containing only \(y\) can be a refutation-based interpolant
+    for this example.
+
+\end{frame}
+
+% third result: interpolation 2 does exist, linear in proof size
+\begin{frame}
+    \frametitle{Implicational Interpolation for Ortholattices}
+
+    % finally, we consider a notion of interpolation that is more natural for
+    % lattices, based on implications, or lattice inequalities, i.e.
+    % given two formulas \gamma and \delta, such that \gamma < \delta 
+
+    Given two ortholattice formulas \(\gamma\) and \(\delta\), such that
+    \(\gamma \leq \delta\) wrt laws of OL, an implicational interpolant is a
+    formula \(I\) such that
+
+    \begin{itemize}
+        \item \(\gamma \leq I\)
+        \item \(I \leq \delta\)
+        \item \(FV(I) \subset FV(\gamma) \cap FV(\delta)\)
+    \end{itemize}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Implicational Interpolation for Ortholattices}
+
+    Given a provable sequent \(\Gamma, \Delta\), an implicational interpolant is
+    a formula \(I\) such that
+
+    \begin{itemize}
+        \item \(\Gamma, I^R\)
+        \item \(I^L, \Delta\)
+        \item \(FV(I) \subset FV(\Gamma) \cap FV(\Delta)\)
+    \end{itemize}
+
+    \pause
+
+    \begin{theorem}
+        Orthologic admits implicational interpolation.
+    \end{theorem}
+
+    \pause
+    \begin{itemize}
+        \item linear-time in size of the proof
+        \item thus quadratic-time in size of the sequent
+    \end{itemize}
+    
+\end{frame}
+
+\begin{frame}
+    \frametitle{Implicational Interpolation for Ortholattices}
+
+    \begin{theorem}
+        Orthologic admits implicational interpolation.
+    \end{theorem}
+
+    \begin{proof}
+        % base case for hypothesis
+        Base case:
+        \pause
+        
+        \begin{center}
+            \AxiomC{\phantom{\(\Gamma\)}}
+            \RightLabel{\text { Hyp}}
+            \UnaryInfC{$\phi^L, \phi^R$}
+            \DisplayProof
+        \end{center}
+
+        \pause
+        Interpolant is \(I = \phi\), and we trivially have proofs of
+        \(\phi^L, I^R\) and \(I^L, \phi^R\).
+    \end{proof}
+
+\end{frame}
+
+\begin{frame}
+    \frametitle{Implicational Interpolation for Ortholattices}
+
+    \begin{theorem}
+        Orthologic admits implicational interpolation.
+    \end{theorem}
+
+    \begin{proof}
+        % base case for hypothesis
+        Inductive case:
+        \pause
+
+        \begin{center}
+            \AxiomC{\(\Gamma, \phi^L\)}
+            \RightLabel{\text { LeftAnd}}
+            \UnaryInfC{$\Gamma, \phi \land \psi^L$}
+            \DisplayProof
+        \end{center}
+
+        \pause
+        Inductive hypothesis: there is an interpolant \(C\) for \(\Gamma, \phi^L\),
+        such that there are proofs of
+        \begin{gather*}
+            \Gamma, C^R \qquad \qquad C^L, \phi^L
+        \end{gather*}
+
+        \vspace{-1em}
+        \pause
+        We have the interpolant \(I = C\) inductively, and OL proofs of
+        interpolation:
+
+        \begin{multicols}{2}
+            \centering
+            \AxiomC{\(\Gamma, C^R\)}
+            \UnaryInfC{\(\Gamma, C^R\)}
+            \DisplayProof
+
+            \columnbreak
+
+            \centering
+            \AxiomC{\(C^L, \phi^L\)}
+            \RightLabel{\text { LeftAnd}}
+            \UnaryInfC{$C^L, \phi \land \psi^L$}
+            \DisplayProof
+        \end{multicols}
+    \end{proof}
+
+    % the cases for the other proof rules 
+
+\end{frame}
+
+% possible applications
+\begin{frame}
+    \frametitle{Orthologic --- Conclusions and Future}
+
+    % starting with
+    Starting with
+    \begin{itemize}
+        \item Orthologic, weakening of classical propositional logic
+        \item Sound and complete proof system
+    \end{itemize}
+
+    % we show
+    We show
+    \begin{itemize}
+        \item Semantics of Quantified Orthologic
+        \item Absence of quantifier elimination
+        \item Absence of refutation-based interpolation
+        \item Existence of implicational interpolation
+        % which is particularly interesting in the absence of qel
+    \end{itemize}
+
+    % ortholattices have found use in verification and itp
+    % and interpolation has also seen much use in model checking recently
+    % we hope these results will lead to more interesting applications of OL in model-checking as well
+
+\end{frame}
+
+\begin{frame}
+
+    \printbibliography    
+
+\end{frame}
+
+
+\end{document}
+
+% motivation of interpolation
+
+% slow down
+
+% complexity of interpolation
+
+
+% add future talk to conclusion
+
+% explain ortholattices on the first slide?
+
+% can we get better motivation for ol? something to model with them?
+
+% first slide motivation
+
+% just show the law/rule as different?
+
+% label the law set of boolean algebras
+
+% add citation for intuitionistic logic syntactic restriction
+
+% give example of sequent notations and stop for a bit
+
+% on soundness/completeness side, change provable to words instead
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+% 1. state contributions
+
+% ^^ 1
+% 2. make clear that we will talk about qelim and interpolation
+
+% 3. remove quadratic eqn qel
+
+% 4. make clear that something is an example
+
+% 5. citation for least and greatest
+
+% 6. mcmillan citation, model checking
+
+% 7. swap ol laws and properties
+
+% 8. scale up the laws table, ditch rhs
+
+% 9. remove law labels V*
+
+% 10. quick reminder as to what a sequent is
+
+% 11. shorten quantifier elim def
+
+% 12. does not admit qel, LIKE INTUITIONISTIC LOGIC
+
+% 13. M-2, M-4: M-2 is a BA, M-4 is not
+
+% 14. Give soundness and completeness for QOL formal statements
+
+

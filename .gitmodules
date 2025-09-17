@@ -1,0 +1,15 @@
+[submodule "jmm-pl-seminar"]
+	path = jmm-pl-seminar
+	url = https://github.com/sankalpgambhir/jmm-pl-seminar
+[submodule "smt-lia-pl-seminar"]
+	path = smt-lia-pl-seminar
+	url = https://github.com/sankalpgambhir/smt-lia-pl-seminar
+[submodule "verus-pl-seminar"]
+	path = verus-pl-seminar
+	url = https://github.com/sankalpgambhir/verus-pl-seminar
+[submodule "combinators-pl-seminar"]
+	path = combinators-pl-seminar
+	url = https://github.com/sankalpgambhir/combinators-presentation
+[submodule "ho-chc-pl-seminar"]
+	path = ho-chc-pl-seminar
+	url = https://github.com/sankalpgambhir/higher-order-hc-presentation
